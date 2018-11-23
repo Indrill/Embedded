@@ -11,9 +11,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.example.thomas.gymclubapp.API.GymApp.GymAPI;
 import com.example.thomas.gymclubapp.Models.Register;
 import com.example.thomas.gymclubapp.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 
 public class RegisterFragment extends Fragment {
     @Nullable
@@ -38,8 +45,27 @@ public class RegisterFragment extends Fragment {
                     String Pwd = password.getText().toString();
                     if (Mail != "" && FstName != "" && LstName != "" && Pwd != "") {
                         Register register = new Register(Mail, Pwd, FstName, LstName);
-                        // gymapi.Login(); TODO finir le call api
+                        try {
+                            gymapi.Register(new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    try {
+                                        JSONObject json = new JSONObject(response);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
 
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                }
+                            }, register);
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     } else {
                         Toast.makeText(getContext(), "Wrong incomplete", Toast.LENGTH_LONG).show();
                     }

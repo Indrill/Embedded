@@ -9,23 +9,29 @@ import com.example.thomas.gymclubapp.Models.Login;
 import com.example.thomas.gymclubapp.Models.Register;
 import com.example.thomas.gymclubapp.R;
 
+import org.json.JSONException;
+
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 public class GymAPI extends api {
     private String url;
+    Map<String, String> param;
 
     public GymAPI(Context context) {
         super(context);
         this.url = context.getString(R.string.url);
     }
 
-    public void Login(Response.Listener<String> onSucces, Response.ErrorListener onError, Login mParams) {
+    public void Login(Response.Listener<String> onSucces, Response.ErrorListener onError, Login data) {
         String path = "/api/account/login";
-        call(onSucces, onError, this.url + path, null, mParams.SetData(), null, Request.Method.POST);
+        this.param.put("Content-Type", "application/json");
+        call(onSucces, onError, this.url + path, null, param, data.SetData(), Request.Method.POST);
     }
 
-    public void Register(Response.Listener<String> onSucces, Response.ErrorListener onError, Register mParams) {
+    public void Register(Response.Listener<String> onSucces, Response.ErrorListener onError, Register data) throws UnsupportedEncodingException, JSONException {
         String path = "/api/account/register";
-        call(onSucces, onError, this.url + path, null, mParams.SetData(), null, Request.Method.POST);
+        this.param.put("Content-Type", "application/json");
+        call(onSucces, onError, this.url + path, null, param, data.SetData(), Request.Method.POST);
     }
 }

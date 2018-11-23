@@ -11,9 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.example.thomas.gymclubapp.API.GymApp.GymAPI;
 import com.example.thomas.gymclubapp.Models.Login;
 import com.example.thomas.gymclubapp.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LoginFragment extends Fragment {
     @Nullable
@@ -36,7 +41,21 @@ public class LoginFragment extends Fragment {
                     String Pwd = password.getText().toString();
                     if (Mail != "" && Pwd != "") {
                         Login login = new Login(Mail, Pwd);
-                        // gymapi.Login(); TODO finir call api
+                        gymapi.Login(new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject json = new JSONObject(response);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                            }
+                        }, login);
                     } else {
                         Toast.makeText(getContext(), "Wrong incomplete", Toast.LENGTH_LONG).show();
                     }

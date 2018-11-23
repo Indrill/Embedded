@@ -1,13 +1,17 @@
 package com.example.thomas.gymclubapp.Models;
 
-import java.util.Map;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+
 
 public class Register {
     String email;
     String password;
     String firstname;
     String lastname;
-    Map<String, String> data;
+    JSONObject data;
 
     public Register(String email, String password, String firstname, String lastname) {
         this.email = email;
@@ -16,7 +20,8 @@ public class Register {
         this.lastname = lastname;
     }
 
-    public Map<String, String> SetData() {
+    public byte[] SetData() throws JSONException, UnsupportedEncodingException {
+        this.data = new JSONObject();
         this.data.put("email", this.email);
         this.data.put("password", this.password);
         this.data.put("firstname", this.firstname);
@@ -24,6 +29,6 @@ public class Register {
         this.data.put("address", "");
         this.data.put("birthday", "");
         this.data.put("gender", "");
-        return this.data;
+        return this.data.toString().getBytes("utf-8");
     }
 }
