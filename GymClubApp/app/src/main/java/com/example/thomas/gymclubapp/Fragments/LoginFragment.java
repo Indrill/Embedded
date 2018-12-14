@@ -20,6 +20,8 @@ import com.example.thomas.gymclubapp.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+
 public class LoginFragment extends Fragment {
     @Nullable
     @Override

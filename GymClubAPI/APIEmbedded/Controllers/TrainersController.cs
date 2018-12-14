@@ -13,7 +13,7 @@ namespace APIEmbedded.Controllers
     {
 
         [HttpGet]
-        [Authorize]
+        [AllowAnonymous]
         [Route("/api/trainers/listTrainers")]
         public async Task<IActionResult> Trainers()
         {

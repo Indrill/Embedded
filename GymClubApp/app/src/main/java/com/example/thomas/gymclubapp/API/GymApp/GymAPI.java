@@ -26,12 +26,24 @@ public class GymAPI extends api {
     public void Login(Response.Listener<String> onSucces, Response.ErrorListener onError, Login data) {
         String path = "/api/account/login";
         this.param.put("Content-Type", "application/json");
-        call(onSucces, onError, this.url + path, null, param, data.SetData(), Request.Method.POST);
+        try {
+            call(onSucces, onError, this.url + path, null, param, data.SetData(), Request.Method.POST);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     public void Register(Response.Listener<String> onSucces, Response.ErrorListener onError, Register data) throws UnsupportedEncodingException, JSONException {
         String path = "/api/account/register";
         this.param.put("Content-Type", "application/json");
         call(onSucces, onError, this.url + path, null, param, data.SetData(), Request.Method.POST);
+    }
+
+    public void getTrainers(Response.Listener<String> onSucces, Response.ErrorListener onError) {
+        String path = "/api/trainers/listTrainers";
+        this.param.put("Content-Type", "application/json");
+        call(onSucces, onError, this.url + path, null, param, null, Request.Method.GET);
     }
 }
