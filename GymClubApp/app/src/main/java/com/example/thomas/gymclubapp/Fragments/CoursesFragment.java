@@ -2,15 +2,13 @@ package com.example.thomas.gymclubapp.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
+
 import com.example.thomas.gymclubapp.R;
 
 import java.util.ArrayList;
@@ -37,7 +35,7 @@ public class CoursesFragment extends ListFragment {
         }
         String[] from = {"Info"};
         int[] to = {R.id.infoTxt};
-        adapter = new SimpleAdapter(getActivity().getBaseContext(), data, R.layout.trainerlist_item, from, to);
+        adapter = new SimpleAdapter(getActivity().getBaseContext(), data, R.layout.videolist_item, from, to);
         setListAdapter(adapter);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -50,11 +48,8 @@ public class CoursesFragment extends ListFragment {
             @Override
             public void onItemClick(AdapterView<?> av, View v, int pos,
                                     long id) {
-                getFragmentManager().beginTransaction().replace(R.id.content_frame,
+                getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.content_frame,
                         new Video()).commit();
-
-                Toast.makeText(getActivity(), data.get(pos).get("Player"), Toast.LENGTH_SHORT).show();
-
             }
         });
     }

@@ -7,7 +7,6 @@ import com.android.volley.Response;
 import com.example.thomas.gymclubapp.API.api;
 import com.example.thomas.gymclubapp.Models.Login;
 import com.example.thomas.gymclubapp.Models.Register;
-import com.example.thomas.gymclubapp.R;
 
 import org.json.JSONException;
 

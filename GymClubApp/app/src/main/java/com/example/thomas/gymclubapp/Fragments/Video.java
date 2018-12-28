@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -28,6 +29,7 @@ public class Video extends Fragment implements SurfaceHolder.Callback, MediaPlay
     private MediaPlayer mediaPlayer;
     private MediaController mediaController;
     private Handler handler = new Handler();
+    private FloatingActionButton back;
     String videoSource = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
     View view;
     Context mContext;
@@ -51,7 +53,17 @@ public class Video extends Fragment implements SurfaceHolder.Callback, MediaPlay
                 return false;
             }
         });
+        back = (FloatingActionButton)view.findViewById(R.id.back);
+        setBackButton();
         return view;
+    }
+
+    private void setBackButton() {
+        back.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
     }
 
     @Override
@@ -87,9 +99,6 @@ public class Video extends Fragment implements SurfaceHolder.Callback, MediaPlay
     @Override
     public void onPrepared(MediaPlayer mp) {
         mediaPlayer.start();
-        Toast.makeText(this.getActivity(),
-                "onPrepared()", Toast.LENGTH_LONG).show();
-
         mediaController.setMediaPlayer(this);
         mediaController.setAnchorView(surfaceView);
         handler.post(new Runnable() {
