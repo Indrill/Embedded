@@ -56,9 +56,6 @@ public class Video extends Fragment implements SurfaceHolder.Callback, MediaPlay
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-
-        Toast.makeText(this.getActivity(),
-                "surfaceCreated()", Toast.LENGTH_LONG).show();
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setDisplay(surfaceHolder);
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -66,7 +63,6 @@ public class Video extends Fragment implements SurfaceHolder.Callback, MediaPlay
         try {
             mediaPlayer.setDataSource(videoSource);
             mediaPlayer.prepare();
-
             mediaController = new MediaController(mContext);
 
         } catch (IOException e) {

@@ -1,6 +1,8 @@
 package com.example.thomas.gymclubapp.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -23,35 +25,21 @@ import java.util.HashMap;
 public class TrainersFragment extends ListFragment {
     ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
     SimpleAdapter adapter;
+    String name[] = {"name1", "name2", "name3", "name4", "name5", "name6", "name7"};
+    String desc[] = {"desc1 desc1 desc1 desc1 desc1 desc1 desc1 desc1 desc1 desc1 desc1 desc1 desc1",
+                    "desc2 desc2 desc2 desc2 desc2 desc2 desc2 desc2 desc2 desc2 desc2 desc2 desc2",
+                    "desc3 desc3 desc3 desc3 desc3 desc3 desc3 desc3 desc3 desc3 desc3 desc3 desc3",
+                    "desc4 desc4 desc4 desc4 desc4 desc4 desc4 desc4 desc4 desc4 desc4 desc4 desc4",
+                    "desc5 desc5 desc5 desc5 desc5 desc5 desc5 desc5 desc5 desc5 desc5 desc5 desc5",
+                    "desc6 desc6 desc6 desc6 desc6 desc6 desc6 desc6 desc6 desc6 desc6 desc6 desc6",
+                    "desc7 desc7 desc7 desc7 desc7 desc7 desc7 desc7 desc7 desc7 desc7 desc7 desc7"};
+    String num[] = {"0102030405", "1020304050", "0607080910", "6070809010", "0000000000", "1213141516", "2021222324"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_trainers, container, false);
         Context mContext = view.getContext();
-
-        final GymAPI gymapi = new GymAPI(mContext);
-
-        gymapi.getTrainers( new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONArray arrJson = new JSONArray(response);
-                    String[] players = new String[arrJson.length()];
-                    for(int i = 0; i < arrJson.length(); i++) {
-                        players[i] = arrJson.getString(i);
-                    }
-                    setTrainersList(players);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        });
-
+        setTrainersList();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -60,28 +48,32 @@ public class TrainersFragment extends ListFragment {
         super.onStart();
 
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
-            public void onItemClick(AdapterView<?> av, View v, int pos,
-                                    long id) {
-                Toast.makeText(getActivity(), data.get(pos).get("Player"), Toast.LENGTH_SHORT).show();
-
+            public void onItemClick(AdapterView<?> av, View v, int pos, long id) {
+                callNbr(data.get(pos).get("Phone"));
             }
         });
     }
 
-    private void setTrainersList(String[] players) {
+    public void callNbr(String nbr) {
+        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+        callIntent.setData(Uri.parse("tel:" +  nbr));
+        startActivity(callIntent);
+    }
+
+    private void setTrainersList() {
         HashMap<String, String> map = new HashMap<String, String>();
-        for (int i = 0; i < players.length; i++) {
+        for (int i = 0; i < name.length; i++) {
             map = new HashMap<String, String>();
-            map.put("Player", players[i]);
-            map.put("Info", "");
+            map.put("Player", name[i]);
+            map.put("Info", desc[i]);
+            map.put("Phone", num[i]);
             map.put("Image", Integer.toString(R.drawable.ic_trainers));
 
             data.add(map);
         }
-        String[] from = {"Player","Info", "Image"};
-        int[] to = {R.id.nameTxt, R.id.infoTxt, R.id.imageView1};
+        String[] from = {"Player","Info","Phone","Image"};
+        int[] to = {R.id.nameTxt, R.id.infoTxt, R.id.phoneNbr, R.id.imageView1};
         adapter = new SimpleAdapter(getActivity().getBaseContext(), data, R.layout.trainerlist_item, from, to);
         setListAdapter(adapter);
     }

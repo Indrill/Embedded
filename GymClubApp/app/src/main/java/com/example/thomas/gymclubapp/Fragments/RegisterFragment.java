@@ -27,7 +27,7 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_register, container, false);
-        Context mContext = view.getContext();
+        final Context mContext = view.getContext();
 
         final GymAPI gymapi = new GymAPI(mContext);
         final EditText email = (EditText)view.findViewById(R.id.email);
@@ -51,6 +51,7 @@ public class RegisterFragment extends Fragment {
                                 public void onResponse(String response) {
                                     try {
                                         JSONObject json = new JSONObject(response);
+                                        Toast.makeText(mContext, json.toString(), Toast.LENGTH_LONG).show();
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -59,6 +60,7 @@ public class RegisterFragment extends Fragment {
                             }, new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
+                                    error.printStackTrace();
                                 }
                             }, register);
                         } catch (UnsupportedEncodingException e) {

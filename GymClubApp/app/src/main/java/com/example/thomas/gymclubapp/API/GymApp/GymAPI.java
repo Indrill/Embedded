@@ -12,22 +12,25 @@ import com.example.thomas.gymclubapp.R;
 import org.json.JSONException;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class GymAPI extends api {
     private String url;
-    Map<String, String> param;
+    private String auth;
 
     public GymAPI(Context context) {
         super(context);
-        this.url = context.getString(R.string.url);
+        this.url = "https://dc9212d0.ngrok.io";
+        this.auth =  "Auth";
     }
 
     public void Login(Response.Listener<String> onSucces, Response.ErrorListener onError, Login data) {
         String path = "/api/account/login";
-        this.param.put("Content-Type", "application/json");
+        Map<String, String> param = new HashMap<String, String>();
+        param.put("Content-Type", "application/json");
         try {
-            call(onSucces, onError, this.url + path, null, param, data.SetData(), Request.Method.POST);
+            call(onSucces, onError, this.url + path, this.auth, param, data.SetData(), Request.Method.POST);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
@@ -37,13 +40,15 @@ public class GymAPI extends api {
 
     public void Register(Response.Listener<String> onSucces, Response.ErrorListener onError, Register data) throws UnsupportedEncodingException, JSONException {
         String path = "/api/account/register";
-        this.param.put("Content-Type", "application/json");
-        call(onSucces, onError, this.url + path, null, param, data.SetData(), Request.Method.POST);
+        Map<String, String> param = new HashMap<String, String>();
+        param.put("Content-Type", "application/json");
+        call(onSucces, onError, this.url + path, this.auth, param, data.SetData(), Request.Method.POST);
     }
 
     public void getTrainers(Response.Listener<String> onSucces, Response.ErrorListener onError) {
         String path = "/api/trainers/listTrainers";
-        this.param.put("Content-Type", "application/json");
-        call(onSucces, onError, this.url + path, null, param, null, Request.Method.GET);
+        Map<String, String> param = new HashMap<String, String>();
+        param.put("Content-Type", "application/json");
+        call(onSucces, onError, this.url + path, this.auth, param, null, Request.Method.GET);
     }
 }

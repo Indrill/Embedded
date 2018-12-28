@@ -2,6 +2,8 @@ package com.example.thomas.gymclubapp.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,11 +33,10 @@ public class CoursesFragment extends ListFragment {
         for (int i = 0; i < videos.length; i++) {
             map = new HashMap<String, String>();
             map.put("Info", videos[i]);
-            map.put("Image", Integer.toString(R.drawable.ic_trainers));
             data.add(map);
         }
-        String[] from = {"Info", "Image"};
-        int[] to = {R.id.infoTxt, R.id.imageView1};
+        String[] from = {"Info"};
+        int[] to = {R.id.infoTxt};
         adapter = new SimpleAdapter(getActivity().getBaseContext(), data, R.layout.trainerlist_item, from, to);
         setListAdapter(adapter);
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -49,6 +50,9 @@ public class CoursesFragment extends ListFragment {
             @Override
             public void onItemClick(AdapterView<?> av, View v, int pos,
                                     long id) {
+                getFragmentManager().beginTransaction().replace(R.id.content_frame,
+                        new Video()).commit();
+
                 Toast.makeText(getActivity(), data.get(pos).get("Player"), Toast.LENGTH_SHORT).show();
 
             }

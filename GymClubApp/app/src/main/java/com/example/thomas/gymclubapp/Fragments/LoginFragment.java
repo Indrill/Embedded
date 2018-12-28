@@ -27,18 +27,16 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_login, container, false);
-        Context mContext = view.getContext();
+        final Context mContext = view.getContext();
 
         final GymAPI gymapi = new GymAPI(mContext);
         final EditText email = (EditText)view.findViewById(R.id.email);
-        final EditText firstname = (EditText)view.findViewById(R.id.firstname);
-        final EditText lastname = (EditText)view.findViewById(R.id.lastname);
         final EditText password = (EditText)view.findViewById(R.id.password);
 
-        Button regist = (Button)view.findViewById(R.id.register);
-        regist.setOnClickListener(new View.OnClickListener() {
+        Button login = (Button)view.findViewById(R.id.login);
+        login.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                if (view.getId() == R.id.register) {
+                if (view.getId() == R.id.login) {
                     String Mail = email.getText().toString();;
                     String Pwd = password.getText().toString();
                     if (Mail != "" && Pwd != "") {
@@ -48,6 +46,7 @@ public class LoginFragment extends Fragment {
                             public void onResponse(String response) {
                                 try {
                                     JSONObject json = new JSONObject(response);
+                                    Toast.makeText(mContext, json.toString(), Toast.LENGTH_LONG).show();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
